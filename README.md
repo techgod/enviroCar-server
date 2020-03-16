@@ -23,6 +23,8 @@ The documentation is a GitHub page and managed in the branch ``gh-pages``, see h
 * Run `mvn clean install`.
 * Deploy the `war` file in `webapp/target` to a application server of your choice (e.g. [Apache Tomcat](http://tomcat.apache.org/)).
 
+Yash starts working!
+
 ## [License](LICENSE) ##
 
     Copyright (C) 2013-2019 The enviroCar project
@@ -37,4 +39,3 @@ The documentation is a GitHub page and managed in the branch ``gh-pages``, see h
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
     
-    Test Commit - Yash
