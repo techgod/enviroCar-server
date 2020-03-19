@@ -21,25 +21,26 @@ import com.google.inject.assistedinject.Assisted;
 import org.envirocar.server.core.entities.Track;
 import org.envirocar.server.core.exception.IllegalModificationException;
 import org.envirocar.server.core.exception.ValidationException;
+import org.envirocar.server.core.statistics.Statistic;
+import org.envirocar.server.rest.GreetingProtos;
 import org.envirocar.server.rest.MediaTypes;
 import org.envirocar.server.rest.Schemas;
+import org.envirocar.server.rest.StatisticProto;
 import org.envirocar.server.rest.auth.Authenticated;
 import org.envirocar.server.rest.schema.Schema;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * TODO JavaDoc
  *
  * @author Arne de Wall <a.dewall@52north.org>
  */
-public class TrackResource extends AbstractResource {
+public class TrackProtoResource extends AbstractResource {
     public static final String MEASUREMENTS = "measurements";
     public static final String SENSOR = "sensor";
     public static final String STATISTICS = "statistics";
@@ -48,7 +49,7 @@ public class TrackResource extends AbstractResource {
     private final Track track;
 
     @Inject
-    public TrackResource(@Assisted Track track) {
+    public TrackProtoResource(@Assisted Track track) {
         this.track = track;
     }
 
@@ -64,16 +65,27 @@ public class TrackResource extends AbstractResource {
 
     @GET
     @Schema(response = Schemas.TRACK)
-    @Produces({MediaTypes.JSON,
-               MediaTypes.XML_RDF,
-               MediaTypes.TURTLE,
-               MediaTypes.TURTLE_ALT,
-               MediaTypes.CSV,
-               MediaTypes.APPLICATION_ZIPPED_SHP,
-               MediaTypes.APPLICATION_PROTOBUF})
-    public Track get() {
-        return track;
+    @Produces({MediaTypes.APPLICATION_PROTOBUF})
+    public StatisticProto.Statistic get()
+    {
+        System.out.println("This is the proto method.");
+        /*GreetingProtos.Greeting.Builder gp = GreetingProtos.Greeting.newBuilder();
+        gp.setGreeting("Hello");
+        gp.setMsg("This is Yash Pradhan");*/
+        StatisticProto.Statistic.Builder stat = StatisticProto.Statistic.newBuilder();
+
+            stat.setMin(0.0);
+            stat.setAvg(0.0);
+            stat.setMax(0.0);
+            stat.setMeasurement(0);
+            stat.setTracks(0);
+            stat.setSensors(0);
+
+        return stat.build();
     }
+    //public Track get() {
+    //    return track;
+    //}
 
     @DELETE
     @Authenticated

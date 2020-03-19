@@ -56,7 +56,7 @@ public class StatisticResource extends AbstractResource {
 
     @GET
     @Schema(response = Schemas.STATISTIC)
-    @Produces({MediaTypes.JSON, MediaTypes.XML_RDF, MediaTypes.TURTLE, MediaTypes.TURTLE_ALT})
+    @Produces({MediaTypes.JSON, MediaTypes.XML_RDF, MediaTypes.TURTLE, MediaTypes.TURTLE_ALT,MediaTypes.APPLICATION_PROTOBUF})
     public Statistic get() {
         return getStatisticsService().getStatistic(new StatisticsFilter(user, track, sensor), phenomenon);
     }

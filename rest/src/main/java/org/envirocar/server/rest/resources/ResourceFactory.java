@@ -46,7 +46,11 @@ public interface ResourceFactory {
 
     TrackResource createTrackResource(Track track);
 
+    TrackProtoResource createTrackProtoResource(Track track);
+
     TracksResource createTracksResource(@Nullable User user);
+
+    TracksProtoResource createTracksProtoResource(@Nullable User user);
 
     MeasurementResource createMeasurementResource(Measurement measurement, @Nullable User user, @Nullable Track track);
 
@@ -71,6 +75,8 @@ public interface ResourceFactory {
     StatisticsResource createStatisticsResource(Sensor sensor);
 
     StatisticResource createStatisticResource(Phenomenon phenomenon, @Nullable User user, @Nullable Track track, @Nullable Sensor sensor);
+
+    StatsProtoResource createStatsProtoResource();
 
     UserStatisticResource createUserStatisticsResource();
 

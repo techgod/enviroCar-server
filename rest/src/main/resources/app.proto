@@ -1,0 +1,19 @@
+syntax = "proto2";
+// This is the package where the java source code will be placed.
+option java_package = "org.envirocar.server.rest";
+// This is the name of the class.
+// If not provided, it will be created as <message name>OuterClass.
+option java_outer_classname = "StatisticProto";
+
+message Statistic{
+required double max = 1;
+required double avg = 2;
+required double min = 3;
+required int64 measurement = 4;
+required int64 tracks = 5;
+required int64 sensors = 6;
+}
+
+message Statistics {
+    repeated Statistic stats = 1;
+}

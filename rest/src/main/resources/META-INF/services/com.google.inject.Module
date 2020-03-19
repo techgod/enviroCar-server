@@ -3,6 +3,7 @@ org.envirocar.server.rest.guice.JacksonModule
 org.envirocar.server.rest.guice.JerseyDecoderModule
 org.envirocar.server.rest.guice.JerseyJSONEncoderModule
 org.envirocar.server.rest.guice.JerseyShapefileEncoderModule
+org.envirocar.server.rest.guice.JerseyProtobufEncoderModule
 org.envirocar.server.rest.guice.JerseyCSVEncoderModule
 org.envirocar.server.rest.guice.JerseyRDFEncoderModule
 org.envirocar.server.rest.guice.JsonSchemaModule

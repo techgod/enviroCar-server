@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.envirocar.server.rest.encoding.csv;
+package org.envirocar.server.rest.encoding.protobuf;
 
-import org.apache.commons.io.IOUtils;
+import org.envirocar.server.rest.GreetingProtos;
 import org.envirocar.server.rest.MediaTypes;
+import org.envirocar.server.rest.StatisticProto;
 import org.envirocar.server.rest.encoding.CSVTrackEncoder;
+import org.envirocar.server.rest.encoding.ProtoTrackEncoder;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -35,17 +37,17 @@ import java.lang.reflect.Type;
  *
  * @author Benjamin Pross
  */
-@Produces(MediaTypes.CSV)
-public abstract class AbstractCSVMessageBodyWriter<T> implements
-        MessageBodyWriter<T>, CSVTrackEncoder<T> {
+@Produces(MediaTypes.APPLICATION_PROTOBUF)
+public abstract class AbstractProtoMessageBodyWriter<T> implements
+        MessageBodyWriter<T>, ProtoTrackEncoder<T> {
 
     private final Class<T> classType;
 
-    public AbstractCSVMessageBodyWriter(Class<T> classType) {
+    public AbstractProtoMessageBodyWriter(Class<T> classType) {
         this.classType = classType;
     }
 
-    public abstract InputStream encodeCSV(T t, MediaType mt);
+    public abstract StatisticProto.Statistics encodeProtoStatistic(T t, MediaType mt);
 
     @Override
     public long getSize(T t, Class<?> type, Type genericType, Annotation[] annotations,
@@ -56,16 +58,24 @@ public abstract class AbstractCSVMessageBodyWriter<T> implements
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations,
                                MediaType mediaType) {
-        return this.classType.isAssignableFrom(type) &&
-                mediaType.isCompatible(MediaTypes.CSV_TYPE);
+        return StatisticProto.Statistics.class.isAssignableFrom(type) ||
+                StatisticProto.Statistic.class.isAssignableFrom(type) &&
+                mediaType.isCompatible(MediaTypes.APPLICATION_PROTOBUF_TYPE);
     }
 
     @Override
     public void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations,
                         MediaType mediaType, MultivaluedMap<String, Object> h,
                         OutputStream out) throws IOException {
-        System.out.println(encodeCSV(t, mediaType));
-        IOUtils.copy(encodeCSV(t, mediaType), out);
+        //IOUtils.copy(encodeCSV(t, mediaType), out);
+        if (t instanceof StatisticProto.Statistic) {
+            StatisticProto.Statistic g = (StatisticProto.Statistic)t;
+            g.writeTo(out);
+        }
+        else if (t instanceof StatisticProto.Statistics) {
+            StatisticProto.Statistics g = (StatisticProto.Statistics)t;
+            g.writeTo(out);
+        }
     }
 
 }

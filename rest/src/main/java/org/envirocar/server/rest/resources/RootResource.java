@@ -55,6 +55,9 @@ public class RootResource extends AbstractResource {
     public static final String RESET_PASSWORD = "resetPassword";
     public static final String CONFIRM = "confirm";
     public static final String PRIVACY_STATEMENTS = "privacyStatements";
+    public static final String STATS_PROTO = "stats-p";
+    public static final String TRACKS_PROTO = "tracks-proto";
+
     private final JsonNodeFactory factory;
     private final CountService countService;
 
@@ -77,6 +80,7 @@ public class RootResource extends AbstractResource {
         }
         if (getRights().canSeeTracks()) {
             root.put(JSONConstants.TRACKS_KEY, getUriBuilder().path(TRACKS).build().toString());
+            root.put(JSONConstants.TRACKS_PROTO_KEY, getUriBuilder().path(TRACKS_PROTO).build().toString());
         }
         if (getRights().canSeeSensors()) {
             root.put(JSONConstants.SENSORS_KEY, getUriBuilder().path(SENSORS).build().toString());
@@ -89,6 +93,7 @@ public class RootResource extends AbstractResource {
         }
         if (getRights().canSeeStatistics()) {
             root.put(JSONConstants.STATISTICS_KEY, getUriBuilder().path(STATISTICS).build().toString());
+            root.put(JSONConstants.STATS_PROTO_KEY, getUriBuilder().path(STATS_PROTO).build().toString());
         }
         if (getRights().canSeeAnnouncements()) {
             root.put(JSONConstants.ANNOUNCEMENTS_KEY, getUriBuilder().path(ANNOUNCEMENTS).build().toString());
@@ -143,6 +148,24 @@ public class RootResource extends AbstractResource {
         return getResourceFactory().createTracksResource(null);
     }
 
+    @Path(TRACKS_PROTO)
+    public TracksProtoResource tracks_proto() {
+        checkRights(getRights().canSeeTracks());
+        return getResourceFactory().createTracksProtoResource(null);
+    }
+
+    /*
+    @GET
+    @Path(TRACKS_PROTO)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response tracks_proto()
+    {
+        String output = "[{\"age\":19,\"name\":yash}]";
+
+        return Response.status(200).entity(output).build();
+    }
+    */
+
     @Path(PHENOMENONS)
     public PhenomenonsResource phenomenons() {
         checkRights(getRights().canSeePhenomenons());
@@ -165,6 +188,12 @@ public class RootResource extends AbstractResource {
     public StatisticsResource statistics() {
         checkRights(getRights().canSeeStatistics());
         return getResourceFactory().createStatisticsResource();
+    }
+
+    @Path(STATS_PROTO)
+    public StatsProtoResource statistics_proto() {
+        checkRights(getRights().canSeeStatistics());
+        return getResourceFactory().createStatsProtoResource();
     }
 
     @Path(TERMS_OF_USE)
